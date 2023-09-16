@@ -41,8 +41,7 @@ public final class PersonFactory {
      * @return - ArrayList of Person objects
      */ // TODO
     public List<Person> createPersonList(int listSize) {
-        List<Person> people = new ArrayList<>();
-        people.stream().forEach(p -> createPersonStream(listSize));
+        List<Person> people = createPersonStream(listSize).collect(Collectors.toList());
         return people;
     }
 
@@ -52,9 +51,10 @@ public final class PersonFactory {
      * @return - Array of Person objects
      */ // TODO
     public Person[] createPersonArray(int arrayLength) {
-        return null;
+        Person[] array = new Person[arrayLength];
+        array = createPersonList(arrayLength).toArray(new Person[0]);
+        return array;
     }
-
 
     /**
      * Section 8.2
