@@ -45,10 +45,10 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return list of uniquely named Person objects
      */ //TODO
     public Stream<Person> getUniquelyNamedPeople() {
-        List<Person> uniquePeople = new ArrayList<>();
-        Map<String, Integer> namePairs = nameFrequencyMapping();
-
-        return null;
+        List<Person> uniquePeople = new ArrayList<>(people);
+        Map<String, Integer> nameMapping = nameFrequencyMapping();
+        people.stream().forEach(p -> {if (nameMapping.get(p.getName()) != 1) {uniquePeople.remove(p);}});
+        return uniquePeople.stream();
     }
 
 
