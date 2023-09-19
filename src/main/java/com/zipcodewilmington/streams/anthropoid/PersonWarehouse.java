@@ -4,6 +4,7 @@ import com.zipcodewilmington.streams.tools.ReflectionUtils;
 import com.zipcodewilmington.streams.tools.logging.LoggerHandler;
 import com.zipcodewilmington.streams.tools.logging.LoggerWarehouse;
 
+import javax.lang.model.type.ArrayType;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,8 +45,10 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return list of uniquely named Person objects
      */ //TODO
     public Stream<Person> getUniquelyNamedPeople() {
-        Set<String> uniqueName = getNames().stream().collect(Collectors.toSet());
-        return people.stream();
+        List<Person> uniquePeople = new ArrayList<>();
+        Map<String, Integer> namePairs = nameFrequencyMapping();
+
+        return null;
     }
 
 
@@ -72,6 +75,14 @@ public final class PersonWarehouse implements Iterable<Person> {
         HashMap<Long, String> nameMapping = new HashMap<>();
         people.stream().forEach(p -> nameMapping.put(p.getPersonalId(), p.getName()));
         return nameMapping;
+    }
+
+    public Map<String, Integer> nameFrequencyMapping() {
+        HashMap<String, Integer> nameFrequency = new HashMap<>();
+        people.stream()
+                .forEach(p -> {if (nameFrequency.containsKey(p.getName())) {nameFrequency.put(p.getName(), nameFrequency.get(p.getName() + 1));}
+                else {nameFrequency.put(p.getName(), 1);}});
+        return nameFrequency;
     }
 
 
