@@ -44,9 +44,7 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return list of uniquely named Person objects
      */ //TODO
     public Stream<Person> getUniquelyNamedPeople() {
-        Set<Person> peopleSet = this.people.stream()
-                .collect(Collectors.toSet());
-        List<Person> people = peopleSet.stream().collect(Collectors.toList());
+        Set<String> uniqueName = getNames().stream().collect(Collectors.toSet());
         return people.stream();
     }
 
@@ -56,7 +54,7 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return a Stream of respective
      */ //TODO
     public Stream<Person> getUniquelyNamedPeopleStartingWith(Character character) {
-        return null;
+        return getUniquelyNamedPeople().filter(p -> p.getName().charAt(0) == character);
     }
 
     /**
@@ -64,14 +62,16 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return a Stream of respective
      */ //TODO
     public Stream<Person> getFirstNUniquelyNamedPeople(int n) {
-        return null;
+        return getUniquelyNamedPeople().limit(n);
     }
 
     /**
      * @return a mapping of Person Id to the respective Person name
      */ // TODO
     public Map<Long, String> getIdToNameMap() {
-        return null;
+        HashMap<Long, String> nameMapping = new HashMap<>();
+        people.stream().forEach(p -> nameMapping.put(p.getPersonalId(), p.getName()));
+        return nameMapping;
     }
 
 
@@ -87,7 +87,11 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return Stream of all Aliases
      */ // TODO
     public Stream<String> getAllAliases() {
-        return null;
+        List<String> aliases = new ArrayList<>();
+        people.forEach(p -> {String[] temp = new String[p.getAliases().length];
+                            temp = p.getAliases().clone();
+                            aliases.addAll(Arrays.stream(temp).collect(Collectors.toList()));});
+        return aliases.stream();
     }
 
     // DO NOT MODIFY
